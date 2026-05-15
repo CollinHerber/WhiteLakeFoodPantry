@@ -1,0 +1,8 @@
+{
+	"name": "White Lake Food Pantry",
+	"short_name": "White Lake Food Pantry",
+	"start_url": ".",
+	"display": "standalone",
+	"background_color": "#f8faf7",
+	"theme_color": "#166534"
+}
