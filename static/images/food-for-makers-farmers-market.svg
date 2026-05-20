@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1280" role="img" aria-labelledby="title desc">
+	<title id="title">Food for the Makers and Farmers Market</title>
+	<desc id="desc">
+		Event flyer for beef tacos and shrimp tacos on May 28 from 4:00 to 6:00 PM, with proceeds going
+		to the White Lake Area Christian Food Pantry.
+	</desc>
+	<defs>
+		<pattern id="paper" width="72" height="72" patternUnits="userSpaceOnUse">
+			<rect width="72" height="72" fill="#f6edcf" />
+			<circle cx="12" cy="18" r="2" fill="#d2b16c" opacity=".35" />
+			<circle cx="54" cy="40" r="1.6" fill="#c69b54" opacity=".28" />
+			<circle cx="32" cy="62" r="1.4" fill="#9d7a41" opacity=".18" />
+		</pattern>
+	</defs>
+	<rect width="960" height="1280" fill="url(#paper)" />
+	<rect x="34" y="34" width="892" height="1212" rx="28" fill="none" stroke="#174c28" stroke-width="10" />
+	<text
+		x="480"
+		y="160"
+		text-anchor="middle"
+		fill="#174c28"
+		font-family="Georgia, serif"
+		font-size="128"
+		font-weight="900"
+		letter-spacing="8"
+	>FOOD</text>
+	<text
+		x="480"
+		y="242"
+		text-anchor="middle"
+		fill="#241914"
+		font-family="Brush Script MT, cursive"
+		font-size="74"
+	>for the</text>
+	<text
+		x="480"
+		y="352"
+		text-anchor="middle"
+		fill="#0f315d"
+		font-family="Georgia, serif"
+		font-size="92"
+		font-weight="900"
+		letter-spacing="6"
+	>MAKERS &amp;</text>
+	<text
+		x="480"
+		y="445"
+		text-anchor="middle"
+		fill="#174c28"
+		font-family="Georgia, serif"
+		font-size="78"
+		font-weight="900"
+		letter-spacing="4"
+	>FARMERS MARKET</text>
+	<path d="M140 506h680l-34 52 34 52H140l34-52-34-52Z" fill="#0f315d" />
+	<text
+		x="480"
+		y="580"
+		text-anchor="middle"
+		fill="#fff8dc"
+		font-family="Arial, sans-serif"
+		font-size="37"
+		font-weight="800"
+		letter-spacing="2"
+	>COME HUNGRY. SUPPORT LOCAL.</text>
+	<rect x="72" y="664" width="336" height="166" rx="34" fill="#d19b43" />
+	<circle cx="146" cy="746" r="54" fill="#f7e7b0" />
+	<rect x="112" y="716" width="230" height="58" rx="28" fill="#f7e7b0" />
+	<circle cx="218" cy="740" r="12" fill="#174c28" />
+	<circle cx="260" cy="742" r="10" fill="#a03522" />
+	<circle cx="304" cy="741" r="12" fill="#174c28" />
+	<rect x="552" y="664" width="336" height="166" rx="34" fill="#d19b43" />
+	<circle cx="626" cy="746" r="54" fill="#f7e7b0" />
+	<rect x="592" y="716" width="230" height="58" rx="28" fill="#f7e7b0" />
+	<circle cx="690" cy="740" r="13" fill="#d45f1f" />
+	<circle cx="735" cy="742" r="11" fill="#d45f1f" />
+	<circle cx="779" cy="741" r="13" fill="#d45f1f" />
+	<circle cx="480" cy="748" r="132" fill="#174c28" stroke="#f6edcf" stroke-width="10" />
+	<text
+		x="480"
+		y="704"
+		text-anchor="middle"
+		fill="#ffffff"
+		font-family="Brush Script MT, cursive"
+		font-size="48"
+	>We're serving</text>
+	<text
+		x="480"
+		y="768"
+		text-anchor="middle"
+		fill="#e3b53e"
+		font-family="Georgia, serif"
+		font-size="61"
+		font-weight="900"
+	>BEEF</text>
+	<text
+		x="480"
+		y="822"
+		text-anchor="middle"
+		fill="#ffffff"
+		font-family="Georgia, serif"
+		font-size="45"
+		font-weight="900"
+	>TACOS</text>
+	<text
+		x="480"
+		y="880"
+		text-anchor="middle"
+		fill="#ea6327"
+		font-family="Georgia, serif"
+		font-size="58"
+		font-weight="900"
+	>&amp; SHRIMP</text>
+	<text
+		x="480"
+		y="933"
+		text-anchor="middle"
+		fill="#ffffff"
+		font-family="Georgia, serif"
+		font-size="45"
+		font-weight="900"
+	>TACOS</text>
+	<path d="M314 972h332l-24 38 24 38H314l24-38-24-38Z" fill="#f6edcf" stroke="#b58b3a" stroke-width="6" />
+	<text
+		x="480"
+		y="1026"
+		text-anchor="middle"
+		fill="#241914"
+		font-family="Arial, sans-serif"
+		font-size="33"
+		font-weight="900"
+		letter-spacing="2"
+	>MADE TO ORDER!</text>
+	<line x1="480" y1="1084" x2="480" y2="1180" stroke="#0f315d" stroke-width="4" stroke-dasharray="12 12" />
+	<text
+		x="252"
+		y="1142"
+		text-anchor="middle"
+		fill="#0f315d"
+		font-family="Arial, sans-serif"
+		font-size="66"
+		font-weight="900"
+	>MAY 28TH</text>
+	<text
+		x="252"
+		y="1196"
+		text-anchor="middle"
+		fill="#174c28"
+		font-family="Arial, sans-serif"
+		font-size="42"
+		font-weight="900"
+	>4:00 - 6:00 PM</text>
+	<text
+		x="700"
+		y="1134"
+		text-anchor="middle"
+		fill="#0f315d"
+		font-family="Brush Script MT, cursive"
+		font-size="50"
+	>Good Food.</text>
+	<text
+		x="700"
+		y="1190"
+		text-anchor="middle"
+		fill="#174c28"
+		font-family="Brush Script MT, cursive"
+		font-size="50"
+	>Stronger Community.</text>
+	<rect x="0" y="1212" width="960" height="68" fill="#174c28" />
+	<text
+		x="480"
+		y="1257"
+		text-anchor="middle"
+		fill="#fff8dc"
+		font-family="Arial, sans-serif"
+		font-size="30"
+		font-weight="800"
+		letter-spacing="2"
+	>PROCEEDS BENEFIT WHITE LAKE AREA CHRISTIAN FOOD PANTRY</text>
+</svg>

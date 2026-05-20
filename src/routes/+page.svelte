@@ -4,52 +4,26 @@
 	import { Button } from 'flowbite-svelte';
 	import {
 		ArrowRightOutline,
-		BarsOutline,
 		BowlFoodOutline,
-		BuildingOutline,
 		CalendarWeekOutline,
+		CheckPlusCircleOutline,
 		CheckCircleOutline,
-		CloseOutline,
+		ClipboardListOutline,
 		EnvelopeOutline,
 		GiftBoxOutline,
 		HeartOutline,
 		MapPinAltOutline,
-		PhoneOutline,
 		UsersGroupOutline
 	} from 'flowbite-svelte-icons';
 
-	let menuOpen = $state(false);
-
 	const heroImage = asset('/images/pantry-volunteers.jpg');
-	const navigation = [
-		{ label: 'Get Help', href: '/#get-help' },
-		{ label: 'Donate', href: '/#donate' },
-		{ label: 'Volunteer', href: '/#volunteer' },
-		{ label: 'Visit', href: '/#visit' }
-	] as const;
+	const logoImage = asset(site.logoPath);
+	const donationIcons = [HeartOutline, CheckPlusCircleOutline, BowlFoodOutline] as const;
 
 	const impactStats = [
-		{ value: 'Local', label: 'serving White Lake area families' },
-		{ value: 'Practical', label: 'food, basics, and community support' },
-		{ value: 'Welcoming', label: 'clear next steps for guests and donors' }
-	];
-
-	const serviceCards = [
-		{
-			title: 'Food support',
-			text: 'A reliable place for neighbors to find pantry staples, household basics, and community care.',
-			icon: BowlFoodOutline
-		},
-		{
-			title: 'Donations',
-			text: 'Food, funds, and practical supplies help the pantry respond to seasonal and urgent needs.',
-			icon: GiftBoxOutline
-		},
-		{
-			title: 'Volunteers',
-			text: 'Flexible help keeps shelves organized, grocery boxes packed, and pantry days running smoothly.',
-			icon: UsersGroupOutline
-		}
+		{ value: 'Food', label: 'support for local households' },
+		{ value: 'Supplies', label: 'personal care and healthcare basics' },
+		{ value: 'Neighbors', label: 'volunteers, donors, and partners' }
 	];
 
 	const jsonLd = {
@@ -68,11 +42,32 @@
 			postalCode: site.location.postalCode,
 			addressCountry: 'US'
 		},
-		image: `${site.url}/images/pantry-volunteers.jpg`
+		image: `${site.url}/images/pantry-volunteers.jpg`,
+		sameAs: [site.facebookUrl]
 	};
 
 	const scriptClose = '</' + 'script>';
 	const jsonLdMarkup = `<script type="application/ld+json">${JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}${scriptClose}`;
+
+	function handleVolunteerSubmit(event: SubmitEvent) {
+		event.preventDefault();
+
+		const form = event.currentTarget as HTMLFormElement;
+		const data = new FormData(form);
+		const lines = [
+			'Volunteer interest form',
+			'',
+			`Name: ${data.get('name') || ''}`,
+			`Email: ${data.get('email') || ''}`,
+			`Phone: ${data.get('phone') || ''}`,
+			`Availability: ${data.get('availability') || ''}`,
+			`Interests: ${data.get('interests') || ''}`,
+			'',
+			`Message: ${data.get('message') || ''}`
+		];
+
+		window.location.href = `mailto:${site.email}?subject=${encodeURIComponent('Volunteer interest')}&body=${encodeURIComponent(lines.join('\n'))}`;
+	}
 </script>
 
 <svelte:head>
@@ -93,86 +88,20 @@
 	{@html jsonLdMarkup}
 </svelte:head>
 
-<header class="sticky top-0 z-50 border-b border-green-900/10 bg-white/95 backdrop-blur">
-	<nav class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-3 sm:px-6 lg:px-8">
-		<a
-			class="flex min-w-0 items-center gap-2 sm:gap-3"
-			href={resolve('/#top')}
-			aria-label={`${site.shortName} home`}
-		>
-			<span
-				class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-green-700 text-white sm:size-11"
-			>
-				<HeartOutline class="size-5 sm:size-6" />
-			</span>
-			<span class="min-w-0 leading-tight">
-				<span class="block text-sm font-bold text-slate-950 sm:text-base">{site.shortName}</span>
-				<span class="block text-xs font-medium tracking-wide text-green-700 uppercase"
-					>Community pantry</span
-				>
-			</span>
-		</a>
-
-		<div class="hidden items-center gap-7 md:flex">
-			{#each navigation as item (item.href)}
-				<a
-					class="text-sm font-semibold text-slate-700 transition hover:text-green-700"
-					href={resolve(item.href)}
-				>
-					{item.label}
-				</a>
-			{/each}
-			<Button tag="a" href={resolve('/#donate')} color="green" size="sm" class="rounded-lg"
-				>Donate</Button
-			>
-		</div>
-
-		<button
-			class="inline-flex size-11 items-center justify-center rounded-lg border border-slate-200 text-slate-800 md:hidden"
-			type="button"
-			aria-label="Toggle navigation"
-			aria-expanded={menuOpen}
-			onclick={() => (menuOpen = !menuOpen)}
-		>
-			{#if menuOpen}
-				<CloseOutline class="size-5" />
-			{:else}
-				<BarsOutline class="size-5" />
-			{/if}
-		</button>
-	</nav>
-
-	{#if menuOpen}
-		<div class="border-t border-slate-100 bg-white px-4 py-4 md:hidden">
-			<div class="mx-auto grid max-w-7xl gap-2">
-				{#each navigation as item (item.href)}
-					<a
-						class="rounded-lg px-3 py-3.5 text-base font-semibold text-slate-700 hover:bg-green-50 hover:text-green-800"
-						href={resolve(item.href)}
-						onclick={() => (menuOpen = false)}
-					>
-						{item.label}
-					</a>
-				{/each}
-			</div>
-		</div>
-	{/if}
-</header>
-
 <main id="top">
 	<section
 		class="relative overflow-hidden bg-slate-950 text-white"
-		style={`background-image: linear-gradient(90deg, rgba(6, 24, 20, 0.86), rgba(6, 24, 20, 0.55), rgba(6, 24, 20, 0.2)), url('${heroImage}'); background-size: cover; background-position: center;`}
+		style={`background-image: linear-gradient(90deg, rgba(6, 24, 20, 0.88), rgba(6, 24, 20, 0.6), rgba(6, 24, 20, 0.18)), url('${heroImage}'); background-size: cover; background-position: center;`}
 	>
 		<div
 			class="mx-auto grid min-h-[68svh] max-w-7xl content-center px-4 py-14 sm:min-h-[74svh] sm:px-6 sm:py-20 lg:px-8"
 		>
 			<div class="max-w-3xl">
-				<p
-					class="mb-4 inline-flex rounded-full bg-white/15 px-3 py-2 text-sm font-semibold text-green-50 ring-1 ring-white/25 sm:mb-5 sm:px-4"
-				>
-					{site.location.locality}, {site.location.region}
-				</p>
+				<img
+					class="mb-6 h-16 w-auto rounded-lg bg-white p-2 sm:h-20"
+					src={logoImage}
+					alt={site.name}
+				/>
 				<h1
 					class="max-w-3xl text-3xl leading-tight font-black text-balance sm:text-5xl lg:text-6xl"
 				>
@@ -184,12 +113,12 @@
 				<div class="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row">
 					<Button
 						tag="a"
-						href={resolve('/#get-help')}
+						href={resolve('/contact/')}
 						color="green"
 						size="lg"
 						class="w-full rounded-lg sm:w-auto"
 					>
-						Get pantry details
+						Contact the pantry
 						<ArrowRightOutline class="ms-2 size-5" />
 					</Button>
 					<Button
@@ -220,30 +149,39 @@
 		</div>
 	</section>
 
-	<section id="get-help" class="scroll-mt-24 bg-[#f8faf7] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-		<div class="mx-auto max-w-7xl">
-			<div class="max-w-3xl">
-				<p class="text-sm font-bold tracking-wide text-green-700 uppercase">
-					What the pantry provides
-				</p>
+	<section id="about" class="scroll-mt-24 bg-[#f8faf7] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+		<div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+			<div>
+				<p class="text-sm font-bold tracking-wide text-green-700 uppercase">About and mission</p>
 				<h2 class="mt-3 text-2xl font-black text-balance text-slate-950 sm:text-4xl">
-					Simple information for neighbors who need food support.
+					A clear place to explain who the pantry serves and why the work matters.
 				</h2>
-				<p class="mt-4 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-					The pantry keeps the most important details easy to find: how to get help, what to bring,
-					where to go, and how the community can contribute.
-				</p>
 			</div>
-
-			<div class="mt-8 grid gap-4 sm:mt-10 md:grid-cols-3">
-				{#each serviceCards as card (card.title)}
-					{@const Icon = card.icon}
-					<div class="h-full rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-						<Icon class="mb-4 size-9 text-green-700 sm:mb-5 sm:size-10" />
-						<h3 class="text-lg font-bold text-slate-950 sm:text-xl">{card.title}</h3>
-						<p class="mt-3 leading-7 text-slate-600">{card.text}</p>
+			<div class="grid gap-5">
+				<p class="text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">{site.mission}</p>
+				<div class="grid gap-4 sm:grid-cols-3">
+					<div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+						<BowlFoodOutline class="mb-4 size-8 text-green-700" />
+						<h3 class="font-bold text-slate-950">Food support</h3>
+						<p class="mt-2 leading-7 text-slate-600">
+							Pantry staples and food assistance for White Lake area households.
+						</p>
 					</div>
-				{/each}
+					<div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+						<HeartOutline class="mb-4 size-8 text-green-700" />
+						<h3 class="font-bold text-slate-950">Community care</h3>
+						<p class="mt-2 leading-7 text-slate-600">
+							A welcoming, practical resource for neighbors, donors, and volunteers.
+						</p>
+					</div>
+					<div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+						<ClipboardListOutline class="mb-4 size-8 text-green-700" />
+						<h3 class="font-bold text-slate-950">Room to grow</h3>
+						<p class="mt-2 leading-7 text-slate-600">
+							Mission details, eligibility notes, and additional history can be added later.
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -251,43 +189,58 @@
 	<section id="donate" class="scroll-mt-24 bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
 		<div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
 			<div>
-				<p class="text-sm font-bold tracking-wide text-amber-700 uppercase">Donate</p>
+				<p class="text-sm font-bold tracking-wide text-amber-700 uppercase">Donations</p>
 				<h2 class="mt-3 text-2xl font-black text-balance text-slate-950 sm:text-4xl">
-					Every practical gift helps keep pantry shelves ready.
+					Support the pantry without online payments.
 				</h2>
 				<p class="mt-4 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-					Donations help provide steady access to everyday food, personal care items, and seasonal
-					support for neighbors in the White Lake area.
+					This section outlines monetary, healthcare, and food donations while keeping payment
+					processing off the website for now.
 				</p>
 				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
 					<Button
 						tag="a"
-						href={`mailto:${site.email}`}
+						href={`mailto:${site.email}?subject=${encodeURIComponent('Donation question')}`}
 						color="yellow"
 						class="w-full rounded-lg sm:w-auto"
 					>
 						<EnvelopeOutline class="me-2 size-5" />
-						Contact to donate
+						Ask about donating
 					</Button>
 					<Button
 						tag="a"
-						href={resolve('/#visit')}
+						href={resolve('/contact/')}
 						color="alternative"
 						class="w-full rounded-lg sm:w-auto"
 					>
 						<MapPinAltOutline class="me-2 size-5" />
-						Find the pantry
+						Drop-off details
 					</Button>
 				</div>
 			</div>
 
-			<div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
-				{#each site.donationNeeds as need (need)}
-					<div class="rounded-lg border border-amber-200 bg-amber-50 p-4 sm:p-5">
-						<GiftBoxOutline class="mb-4 size-7 text-amber-700" />
-						<p class="leading-7 font-semibold text-slate-800">{need}</p>
-					</div>
-				{/each}
+			<div class="grid gap-4">
+				<div class="grid gap-4 md:grid-cols-3">
+					{#each site.donationMethods as method, index (method.title)}
+						{@const Icon = donationIcons[index] ?? GiftBoxOutline}
+						<div class="rounded-lg border border-amber-200 bg-amber-50 p-5">
+							<Icon class="mb-4 size-8 text-amber-700" />
+							<h3 class="text-lg font-bold text-slate-950">{method.title}</h3>
+							<p class="mt-3 leading-7 text-slate-700">{method.text}</p>
+						</div>
+					{/each}
+				</div>
+				<div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+					<h3 class="text-lg font-bold text-slate-950 sm:text-xl">Current items to donate</h3>
+					<ul class="mt-4 grid gap-3 sm:grid-cols-2">
+						{#each site.donationNeeds as need (need)}
+							<li class="flex gap-3 leading-7 text-slate-700">
+								<CheckCircleOutline class="mt-1 size-5 shrink-0 text-green-700" />
+								<span>{need}</span>
+							</li>
+						{/each}
+					</ul>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -296,99 +249,129 @@
 		id="volunteer"
 		class="scroll-mt-24 bg-green-950 px-4 py-12 text-white sm:px-6 sm:py-16 lg:px-8"
 	>
-		<div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+		<div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
 			<div>
 				<p class="text-sm font-bold tracking-wide text-green-200 uppercase">Volunteer</p>
 				<h2 class="mt-3 text-2xl font-black text-balance sm:text-4xl">
-					Make pantry days easier for everyone.
+					Invite people to give time where it helps most.
 				</h2>
 				<p class="mt-4 text-base leading-7 text-green-50 sm:text-lg sm:leading-8">
-					Volunteers help create a calm, welcoming pantry experience, from sorting donations to
-					packing grocery boxes and supporting community distribution days.
+					Volunteers help keep shelves organized, prepare grocery boxes, support donation drives,
+					and make fundraising events easier to run.
+				</p>
+				<div class="mt-7 grid gap-3">
+					{#each site.volunteerNeeds as need (need)}
+						<div class="flex gap-3 rounded-lg bg-white/10 p-4 ring-1 ring-white/15">
+							<UsersGroupOutline class="mt-1 size-6 shrink-0 text-green-200" />
+							<p class="leading-7 font-semibold text-green-50">{need}</p>
+						</div>
+					{/each}
+				</div>
+			</div>
+
+			<form
+				class="rounded-lg bg-white p-5 text-slate-900 shadow-sm sm:p-6"
+				onsubmit={handleVolunteerSubmit}
+			>
+				<h3 class="text-xl font-black text-slate-950">Volunteer interest form</h3>
+				<div class="mt-5 grid gap-4 sm:grid-cols-2">
+					<label class="grid gap-2 text-sm font-semibold text-slate-700">
+						Name
+						<input
+							class="rounded-lg border border-slate-300 px-3 py-3 font-normal"
+							name="name"
+							type="text"
+							autocomplete="name"
+							required
+						/>
+					</label>
+					<label class="grid gap-2 text-sm font-semibold text-slate-700">
+						Email
+						<input
+							class="rounded-lg border border-slate-300 px-3 py-3 font-normal"
+							name="email"
+							type="email"
+							autocomplete="email"
+							required
+						/>
+					</label>
+					<label class="grid gap-2 text-sm font-semibold text-slate-700">
+						Phone
+						<input
+							class="rounded-lg border border-slate-300 px-3 py-3 font-normal"
+							name="phone"
+							type="tel"
+							autocomplete="tel"
+						/>
+					</label>
+					<label class="grid gap-2 text-sm font-semibold text-slate-700">
+						Availability
+						<input
+							class="rounded-lg border border-slate-300 px-3 py-3 font-normal"
+							name="availability"
+							type="text"
+							placeholder="Weekdays, events, as needed"
+						/>
+					</label>
+					<label class="grid gap-2 text-sm font-semibold text-slate-700 sm:col-span-2">
+						Message
+						<textarea
+							class="min-h-28 rounded-lg border border-slate-300 px-3 py-3 font-normal"
+							name="message"
+							placeholder="Share anything helpful about your availability or experience"
+						></textarea>
+					</label>
+				</div>
+				<button
+					class="mt-5 inline-flex w-full items-center justify-center rounded-lg bg-green-700 px-5 py-3 font-bold text-white transition hover:bg-green-800 sm:w-auto"
+					type="submit"
+				>
+					<EnvelopeOutline class="me-2 size-5" />
+					Send volunteer interest
+				</button>
+			</form>
+		</div>
+	</section>
+
+	<section id="events" class="scroll-mt-24 bg-[#f8faf7] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+		<div class="mx-auto max-w-7xl">
+			<div class="max-w-3xl">
+				<p class="text-sm font-bold tracking-wide text-blue-700 uppercase">Events</p>
+				<h2 class="mt-3 text-2xl font-black text-balance text-slate-950 sm:text-4xl">
+					A place to post fundraisers, food drives, and community updates.
+				</h2>
+				<p class="mt-4 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+					As fundraising events are confirmed, this area can show dates, locations, volunteer needs,
+					and donation requests.
 				</p>
 			</div>
-			<div class="grid gap-4">
-				{#each site.volunteerNeeds as need (need)}
-					<div class="flex gap-3 rounded-lg bg-white/10 p-4 ring-1 ring-white/15 sm:gap-4 sm:p-5">
-						<UsersGroupOutline class="mt-1 size-7 shrink-0 text-green-200" />
-						<p class="leading-7 font-semibold text-green-50">{need}</p>
-					</div>
+			<div class="mt-8 grid gap-4 md:grid-cols-2">
+				{#each site.events as event (event.title)}
+					<article class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+						{#if event.imagePath}
+							<img
+								class="aspect-[4/3] w-full bg-slate-100 object-cover object-top"
+								src={asset(event.imagePath)}
+								alt={event.imageAlt}
+								loading="lazy"
+							/>
+						{/if}
+						<div class="p-5 sm:p-6">
+							<CalendarWeekOutline class="mb-5 size-9 text-blue-700" />
+							<p class="text-sm font-bold tracking-wide text-blue-700 uppercase">{event.date}</p>
+							<h3 class="mt-2 text-xl font-bold text-slate-950">{event.title}</h3>
+							{#if event.time || event.location}
+								<p class="mt-3 leading-7 font-semibold text-slate-800">
+									{#if event.time}{event.time}{/if}
+									{#if event.time && event.location}<br />{/if}
+									{#if event.location}{event.location}{/if}
+								</p>
+							{/if}
+							<p class="mt-3 leading-7 text-slate-600">{event.text}</p>
+						</div>
+					</article>
 				{/each}
 			</div>
 		</div>
 	</section>
-
-	<section id="visit" class="scroll-mt-24 bg-[#f8faf7] px-4 pt-12 pb-24 sm:px-6 sm:py-16 lg:px-8">
-		<div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-3">
-			<div class="lg:col-span-1">
-				<p class="text-sm font-bold tracking-wide text-blue-700 uppercase">Visit</p>
-				<h2 class="mt-3 text-2xl font-black text-slate-950 sm:text-4xl">Location and hours</h2>
-				<p class="mt-4 leading-7 text-slate-600">
-					Reach out before visiting if you have questions about pantry hours, donation drop-off, or
-					volunteer opportunities.
-				</p>
-			</div>
-			<div class="grid gap-5 sm:grid-cols-2 lg:col-span-2">
-				<div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-					<BuildingOutline class="mb-5 size-9 text-blue-700" />
-					<h3 class="text-lg font-bold text-slate-950 sm:text-xl">{site.location.name}</h3>
-					<p class="mt-3 leading-7 text-slate-600">
-						{site.location.address}<br />
-						{site.location.locality}, {site.location.region}
-						{site.location.postalCode}
-					</p>
-				</div>
-				<div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-					<CalendarWeekOutline class="mb-5 size-9 text-blue-700" />
-					<h3 class="text-lg font-bold text-slate-950 sm:text-xl">Hours</h3>
-					<div class="mt-3 grid gap-3">
-						{#each site.hours as item (item.label)}
-							<p class="leading-7">
-								<span class="block font-semibold text-slate-950">{item.label}</span>
-								<span class="text-slate-600">{item.value}</span>
-							</p>
-						{/each}
-					</div>
-				</div>
-				<div class="col-span-full rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-					<div class="grid gap-5 sm:grid-cols-2">
-						<div class="min-w-0">
-							<PhoneOutline class="mb-5 size-9 text-green-700" />
-							<h3 class="text-lg font-bold text-slate-950 sm:text-xl">Contact</h3>
-							<p class="mt-3 leading-7 text-slate-600">
-								<a
-									class="font-semibold break-words text-green-700 hover:text-green-800"
-									href={`tel:${site.phone}`}
-								>
-									{site.phone}
-								</a><br />
-								<a
-									class="font-semibold break-words text-green-700 hover:text-green-800"
-									href={`mailto:${site.email}`}
-								>
-									{site.email}
-								</a>
-							</p>
-						</div>
-						<div class="rounded-lg bg-slate-100 p-4 sm:p-5">
-							<MapPinAltOutline class="mb-4 size-8 text-slate-700" />
-							<p class="leading-7 font-semibold text-slate-800">
-								Map and directions will be shared here so guests, donors, and volunteers can find
-								the pantry easily.
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 </main>
-
-<footer class="border-t border-slate-200 bg-white px-4 py-8 sm:px-6 lg:px-8">
-	<div
-		class="mx-auto flex max-w-7xl flex-col gap-3 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between"
-	>
-		<p class="font-semibold text-slate-800">{site.name}</p>
-		<p>{site.tagline}</p>
-	</div>
-</footer>
